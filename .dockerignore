@@ -1,0 +1,69 @@
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# Virtual Environment
+venv
+env
+ENV
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+README.md
+ARCHITECTURE.md
+DEPLOYMENT.md
+BLOG.md
+docs/
+
+# Testing
+tests/
+.pytest_cache
+.coverage
+
+# CI/CD
+.github/
+
+# Terraform
+terraform/
+
+# Scripts
+scripts/
+
+# Environment
+.env
+.env.example
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Demo files
+assets/demo/
+*.mp4
+
+# Temporary
+tmp/
+temp/
+*.tmp

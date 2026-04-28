@@ -1,0 +1,16 @@
+{
+  "name": "phoenix-sre-backend",
+  "version": "1.0.0",
+  "description": "ADK Multi-Agent Orchestrator for Phoenix SRE",
+  "main": "api/main.py",
+  "scripts": {
+    "dev": "uvicorn api.main:app --reload --host 0.0.0.0 --port 8080",
+    "start": "uvicorn api.main:app --host 0.0.0.0 --port 8080",
+    "test": "pytest tests/ -v",
+    "lint": "flake8 . && black --check .",
+    "format": "black ."
+  },
+  "keywords": ["sre", "gpu", "orchestration", "adk", "ai"],
+  "author": "Phoenix SRE Team",
+  "license": "MIT"
+}

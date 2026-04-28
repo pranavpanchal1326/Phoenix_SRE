@@ -1,0 +1,54 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/phoenix-sre:$SHORT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/phoenix-sre:latest'
+      - '.'
+
+  # Push to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/phoenix-sre:$SHORT_SHA'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'phoenix-sre-dashboard'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/phoenix-sre:$SHORT_SHA'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '5'
+      - '--cpu'
+      - '2'
+      - '--memory'
+      - '4Gi'
+      - '--timeout'
+      - '300'
+      - '--set-env-vars'
+      - 'GEMINI_API_KEY=${_GEMINI_API_KEY},GCP_PROJECT=${PROJECT_ID},APP_MODE=chaos'
+
+images:
+  - 'gcr.io/$PROJECT_ID/phoenix-sre:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/phoenix-sre:latest'
+
+timeout: '1200s'
+
+# Security Note: It is recommended to use Google Secret Manager for GEMINI_API_KEY
+# and fetch it during the build or deploy phase.
+substitutions:
+  _GEMINI_API_KEY: 'REPLACE_WITH_YOUR_KEY'
